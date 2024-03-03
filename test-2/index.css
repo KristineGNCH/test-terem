@@ -1,4 +1,3 @@
-
 body {
 	font-family: "Arial", sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -11,8 +10,15 @@ body {
 }
 
 .text {
-    width: 25%;
-    margin-top: 15px;
-    padding: 15px;
-    color: #0f5132;
+	display: flex;
+	flex-direction: column;
+}
+
+.insert-info {
+	border: solid 1px #0000;
+	color: #0f5132;
+}
+
+.insert-info:nth-child(n+1) {
+	padding-top: 15px;
 }

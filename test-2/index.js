@@ -1,27 +1,28 @@
-$(document).ready(() => {
+const form = document.querySelector('.form');
+const text = document.querySelector('.text');
 
-    function submit() {
-        const json = JSON.stringify($('form').serializeArray()).slice(1, -1);
-        postJson(json);
-        return json;
+function insertText(item) {
+    const span = `<span class='insert-info'> ${ item } </span>`;
+    text.insertAdjacentHTML('beforeend', span);
+};
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dataArr = [...new FormData(form)];
+    const dataObj = Object.fromEntries(dataArr);
+    const json = JSON.stringify(dataObj);
+    const URLArr = [];
+
+    insertText(json);
+    dataArr.forEach((el) => URLArr.push(el.join(' = ')));
+    const URLString = URLArr.join(' | ');
+    getResponse(URLString);
+});
+
+async function getResponse(data) {
+    const response = await fetch(`./index.html?${data}`);
+    if (response.ok) {
+        alert('Спасибо, информация отправлена!');
     }
-
-    function postJson(json) {
-        const p = document.createElement('p');
-        p.textContent = json;
-        $('.container').append(p);
-    };
-
-    $('form').on('submit', (event) => {
-        event.preventDefault();
-        $.ajax({
-            url: '',
-            method: 'get',
-            dataType: 'json',
-            data: submit(),
-            success: function (data) {
-                alert(data);
-            }
-        });
-    });
-})
+    console.log(data);
+}
